@@ -1,11 +1,3 @@
-# Find DCMQI library
-find_package(DCMQI)
-if(DCMQI_FOUND)
-  message(STATUS "\nDCMQI version ${DCMQI_VERSION} found in\n ${DCMQI_BUILD}\n")
-else()
-  message(FATAL_ERROR "\nCannot find DCMQI\n")
-endif()
-
 # Add sub directories with local source code
 add_subdirectory(app)
 add_subdirectory(libs/Hello)

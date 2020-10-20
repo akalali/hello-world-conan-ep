@@ -3,7 +3,12 @@
 #----------
 cmake_minimum_required(VERSION 3.14.5 FATAL_ERROR)
 
-project(Hello-World VERSION 0.1.0 LANGUAGES CXX)
+message(STATUS "Setting C++ standard")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+enable_language(CXX)
 
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE)
@@ -58,7 +63,7 @@ if (USE_CONAN)
 endif()
 
 #----------
-# Superbuild for external projects
+# Superbuild for external projects - enabled by default
 #----------
 option (USE_SUPERBUILD "Whether or not a superbuild should be invoked" ON)
 
@@ -67,7 +72,15 @@ if (USE_SUPERBUILD)
   include(SuperBuild.cmake)
   return()
 else()
-  project(Hello-World VERSION 0.1.0 LANGUAGES CXX)
+  project(Hello-World VERSION 0.1.0)
+endif()
+
+# Find DCMQI library
+find_package(DCMQI)
+if(DCMQI_FOUND)
+  message(STATUS "\nDCMQI found in\n ${DCMQI_DIR}\n")
+else()
+  message(FATAL_ERROR "\nCannot find DCMQI\n")
 endif()
 
 # Turn on using solution folders
