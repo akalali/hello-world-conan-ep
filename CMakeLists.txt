@@ -21,48 +21,6 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 #----------
-# Conan projects
-#----------
-option (USE_CONAN "Whether or not Conan should be used" ON)
-if (USE_CONAN)
-  set(CONAN_CMAKE FALSE CACHE BOOL
-    "Enable to download third party dependencies withing CMake. Disable to install them with Conan separately.")
-  set(CONAN_CMD "" CACHE FILEPATH
-    "File-path to the Conan executable")
-
-  if(CONAN_CMAKE)
-    # Run Conan from CMake to install third party libraries
-    message(STATUS "\nInstall libraries using Conan")
-    include(Conan/download_conan.cmake)
-    include(Conan/dcmtk_conan_options.cmake)
-    include(Conan/itk_conan_options.cmake)
-    include(Conan/conan_run.cmake)
-  else()
-    message(FATAL_ERROR "Requirements not installed\n"
-                        "Please enable CONAN_CMAKE and set the path to the Conan executable with CONAN_CMD.")
-  endif()
-
-  set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_MODULE_PATH})
-  set(CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} ${CMAKE_PREFIX_PATH})
-
-  # Find DCMTK library created by Conan
-  find_package(DCMTK CONFIG)
-  if(TARGET DCMTK::DCMTK)
-    message(STATUS "\nDCMTK version ${DCMTK_VERSION} found in\n ${DCMTK_DIR}\n")
-  else()
-    message(FATAL_ERROR "\nCannot find DCMTK\n")
-  endif()
-
-  # Find ITK library created by Conan
-  find_package(ITK CONFIG)
-  if(TARGET ITK::ITK)
-    message(STATUS "\nITK version ${ITK_VERSION} found in\n ${ITK_DIR}\n")
-  else()
-    message(FATAL_ERROR "\nCannot find ITK\n")
-  endif()
-endif()
-
-#----------
 # Superbuild for external projects - enabled by default
 #----------
 option (USE_SUPERBUILD "Whether or not a superbuild should be invoked" ON)
