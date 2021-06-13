@@ -12,8 +12,6 @@ if (USE_CONAN)
     # Run Conan from CMake to install third party libraries
     message(STATUS "\nInstall libraries using Conan")
     include(Conan/download_conan.cmake)
-    include(Conan/dcmtk_conan_options.cmake)
-    include(Conan/itk_conan_options.cmake)
     include(Conan/conan_run.cmake)
   else()
     message(FATAL_ERROR "Requirements not installed\n"
